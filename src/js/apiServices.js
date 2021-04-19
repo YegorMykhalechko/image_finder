@@ -9,7 +9,7 @@ export const getPictureAcync = async (value, page) => {
         return data
     }
     catch (e) {
-        console.error(e)
+        alert(e);
     }
 }
 

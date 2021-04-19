@@ -14,3 +14,36 @@ body {
     'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.search-form{
+  margin-bottom: 100px;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: minmax(300px, auto);
+  grid-column-gap: 10px;
+  grid-row-gap: 5em;
+}
+
+.photo-card{
+  display: grid;
+  grid-template-rows: 1fr auto ;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+}
