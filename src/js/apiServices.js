@@ -1,4 +1,5 @@
 'use strict';
+import { errorNotice } from './notice.js';
 const baseUrl = `https://pixabay.com/api/`;
 const keyUrl = `&key=21214963-0b498012b448050e925cba030`;
 
@@ -9,7 +10,7 @@ export const getPictureAcync = async (value, page) => {
         return data
     }
     catch (e) {
-        alert(e);
+        errorNotice()
     }
 }
 

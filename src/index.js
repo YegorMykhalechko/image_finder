@@ -1,10 +1,12 @@
 'use strict'
 import './styles.css';
 import 'material-design-icons/iconfont/material-icons.css';
-import 'basiclightbox/dist/basicLightbox.min.css';
+import * as basicLightbox from 'basiclightbox'
 import { getPictureAcync } from './js/apiServices.js';
-import galleryCard from './templates/galleryCard.hbs'
-import scrollToNewImage from './js/scrollToNewImage.js'
+import galleryCard from './templates/galleryCard.hbs';
+import scrollToNewImage from './js/scrollToNewImage.js';
+import { alertNotice, infoNotice } from './js/notice.js';
+import 'basiclightbox/dist/basicLightbox.min.css';
 
 let valueUrl;
 let pageUrl;
@@ -13,6 +15,9 @@ const gallery = document.querySelector('.gallery');
 const input = document.querySelector('#search-form');
 const btn = document.querySelector('.btn');
 
+
+
+
 const getImage = (e) => {
     e.preventDefault();
 
@@ -20,14 +25,14 @@ const getImage = (e) => {
     pageUrl = 1;
     const inputValue = e.target.query.value;
     valueUrl = inputValue;
-    if(valueUrl.length === 0){
-        alert('введите')
+    if (valueUrl.length === 0) {
+        infoNotice()
         return
     }
     getPictureAcync(valueUrl, pageUrl).then(data => {
-        if (!data)return
-        if (data.hits.length === 0){
-            alert('не найдено');
+        if (!data) return
+        if (data.hits.length === 0) {
+            alertNotice()
         };
         const markup = galleryCard(data.hits);
         gallery.insertAdjacentHTML('beforeend', markup);
@@ -45,6 +50,12 @@ const addImage = () => {
 }
 btn.addEventListener('click', addImage);
 
-
+const modalImageCreate = (e) => {
+    e.preventDefault();
+    if (e.target.nodeName !== 'IMG') return;
+    const largeImage = e.target.dataset.image;
+    basicLightbox.create(`<img width="1400" height="900" src="${largeImage}">`).show()
+}
+gallery.addEventListener('click', modalImageCreate)
 
 
