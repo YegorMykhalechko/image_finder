@@ -14,6 +14,7 @@ let pageUrl;
 const gallery = document.querySelector('.gallery');
 const input = document.querySelector('#search-form');
 const btn = document.querySelector('.btn');
+const loader = document.querySelector('.loader')
 
 
 
@@ -29,7 +30,9 @@ const getImage = (e) => {
         infoNotice()
         return
     }
+    toggleLoader()
     getPictureAcync(valueUrl, pageUrl).then(data => {
+        toggleLoader()
         if (!data) return
         if (data.hits.length === 0) {
             alertNotice()
@@ -40,15 +43,21 @@ const getImage = (e) => {
 }
 input.addEventListener('submit', getImage);
 const addImage = () => {
-    pageUrl++;
-    getPictureAcync(valueUrl, pageUrl).then(data => {
-        const markup = galleryCard(data.hits);
-        gallery.insertAdjacentHTML('beforeend', markup);
-    }).then(() => {
-        scrollToNewImage()
-    });
+    let windowRelativeBottom = document.documentElement.getBoundingClientRect().bottom;
+    if (windowRelativeBottom < document.documentElement.clientHeight+1){
+        pageUrl++;
+        console.log(pageUrl)
+        toggleLoader()
+        getPictureAcync(valueUrl, pageUrl).then(data => {
+            toggleLoader()
+            const markup = galleryCard(data.hits);
+            gallery.insertAdjacentHTML('beforeend', markup);
+        }).then(() => {
+            scrollToNewImage()
+        });
+    }
 }
-btn.addEventListener('click', addImage);
+window.addEventListener('scroll', addImage);
 
 const modalImageCreate = (e) => {
     e.preventDefault();
@@ -57,5 +66,9 @@ const modalImageCreate = (e) => {
     basicLightbox.create(`<img width="1400" height="900" src="${largeImage}">`).show()
 }
 gallery.addEventListener('click', modalImageCreate)
+
+const toggleLoader = () => {
+    loader.classList.toggle('show-loader')
+}
 
 
