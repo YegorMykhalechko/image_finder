@@ -1,4 +1,4 @@
-GHP: 
+GHP: https://yegormykhalechko.github.io/image_finder/
 Для быстрого старта необходимо склонировать репозиторий.
 
 ```shell
